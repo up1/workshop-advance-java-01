@@ -8,6 +8,16 @@ public class CircularBufferTest {
     CircularBuffer circularBuffer = new CircularBuffer();
 
     @Test
+    public void write_A_B_and_read_A_B_then_buffer_is_empty() {
+        circularBuffer.create();
+        circularBuffer.write("A");
+        circularBuffer.write("B");
+        circularBuffer.read();
+        circularBuffer.read();
+        assertTrue(circularBuffer.isEmpty());
+    }
+
+    @Test
     public void write_A_B_should_read_A_B() {
         circularBuffer.create();
         circularBuffer.write("A");
