@@ -26,5 +26,9 @@ public class CircularBuffer {
         return flag;
     }
 
+    public void write(String input) {
+        flag = false;
+    }
+
     // Private
 }

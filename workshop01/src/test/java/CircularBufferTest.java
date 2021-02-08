@@ -1,12 +1,20 @@
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CircularBufferTest {
 
     CircularBuffer circularBuffer = new CircularBuffer();
+
+    @Test
+    @DisplayName("หลังจากสร้าง buffer แล้วเพิ่มข้อมูลเข้าไป ผลที่ได้ buffer ต้องไม่ว่าง")
+    public void after_created_and_write_data_should_be_not_empty() {
+        circularBuffer.create();
+        circularBuffer.write("A");
+        boolean status = circularBuffer.isEmpty();
+        assertFalse(status);
+    }
 
     @Test
     @DisplayName("หลังจากสร้าง buffer แล้ว buffer จะต้องว่างเสมอ")
