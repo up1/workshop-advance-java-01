@@ -31,7 +31,7 @@ public class CircularBuffer {
     }
 
     public String read() {
-        return buffers[readPointer];
+        return buffers[readPointer++];
     }
 
     // Private

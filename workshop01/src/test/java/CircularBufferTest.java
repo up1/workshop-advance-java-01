@@ -7,6 +7,14 @@ public class CircularBufferTest {
 
     CircularBuffer circularBuffer = new CircularBuffer();
 
+    @Test
+    public void write_A_B_should_read_A_B() {
+        circularBuffer.create();
+        circularBuffer.write("A");
+        circularBuffer.write("B");
+        assertEquals("A", circularBuffer.read());
+        assertEquals("B", circularBuffer.read());
+    }
 
     @Test
     public void write_A_should_read_A() {
