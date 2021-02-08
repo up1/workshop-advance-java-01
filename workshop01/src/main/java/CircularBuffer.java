@@ -9,7 +9,11 @@ public class CircularBuffer {
     // Methods
     // Public
     public void create() {
-        buffers = new String[DEFAULT_SIZE];
+        create(DEFAULT_SIZE);
+    }
+
+    public void create(int size) {
+        buffers = new String[size];
     }
 
     public int getSize() {
