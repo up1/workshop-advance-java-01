@@ -2,10 +2,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CircularBufferTest {
 
     CircularBuffer circularBuffer = new CircularBuffer();
+
+    @Test
+    @DisplayName("หลังจากสร้าง buffer แล้ว buffer จะต้องว่างเสมอ")
+    public void after_created_should_be_empty() {
+        circularBuffer.create();
+        boolean status = circularBuffer.isEmpty();
+        assertTrue(status);
+    }
 
     @Test
     @DisplayName("ขนาดของ CircularBuffer ต้องมีขนาดเท่ากับ 5")
