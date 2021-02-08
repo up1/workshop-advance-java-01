@@ -7,21 +7,27 @@ public class CircularBufferTest {
 
     CircularBuffer circularBuffer = new CircularBuffer();
 
+
+
     @Test
     public void write_A_B_and_read_A_B_then_buffer_is_empty() {
         circularBuffer.create();
-        circularBuffer.write("A");
-        circularBuffer.write("B");
+        writeDataToBuffer("A", "B");
         circularBuffer.read();
         circularBuffer.read();
         assertTrue(circularBuffer.isEmpty());
     }
 
+    private void writeDataToBuffer(String... inputs) {
+        for (String input : inputs) {
+            circularBuffer.write(input);
+        }
+    }
+
     @Test
     public void write_A_B_should_read_A_B() {
         circularBuffer.create();
-        circularBuffer.write("A");
-        circularBuffer.write("B");
+        writeDataToBuffer("A", "B");
         assertEquals("A", circularBuffer.read());
         assertEquals("B", circularBuffer.read());
     }
@@ -29,7 +35,7 @@ public class CircularBufferTest {
     @Test
     public void write_A_should_read_A() {
         circularBuffer.create();
-        circularBuffer.write("A");
+        writeDataToBuffer("A");
         String result = circularBuffer.read();
         assertEquals("A", result);
     }
@@ -38,7 +44,7 @@ public class CircularBufferTest {
     @DisplayName("หลังจากสร้าง buffer แล้วเพิ่มข้อมูลเข้าไป ผลที่ได้ buffer ต้องไม่ว่าง")
     public void after_created_and_write_data_should_be_not_empty() {
         circularBuffer.create();
-        circularBuffer.write("A");
+        writeDataToBuffer("A");
         boolean status = circularBuffer.isEmpty();
         assertFalse(status);
     }
