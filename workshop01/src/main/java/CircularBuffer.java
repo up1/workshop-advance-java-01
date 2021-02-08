@@ -2,7 +2,8 @@ public class CircularBuffer {
     public static final int DEFAULT_SIZE = 10;
     // Variables
     private String[] buffers;
-    private boolean flag = false;
+    private int writePointer;
+    private int readPointer;
 
     // Constructor
     public CircularBuffer() {}
@@ -15,7 +16,6 @@ public class CircularBuffer {
 
     public void create(int size) {
         buffers = new String[size];
-        flag = true;
     }
 
     public int getSize() {
@@ -23,11 +23,15 @@ public class CircularBuffer {
     }
 
     public boolean isEmpty() {
-        return flag;
+        return writePointer - readPointer == 0;
     }
 
     public void write(String input) {
-        flag = false;
+        buffers[writePointer++] = input;
+    }
+
+    public String read() {
+        return buffers[readPointer];
     }
 
     // Private

@@ -7,6 +7,15 @@ public class CircularBufferTest {
 
     CircularBuffer circularBuffer = new CircularBuffer();
 
+
+    @Test
+    public void write_A_should_read_A() {
+        circularBuffer.create();
+        circularBuffer.write("A");
+        String result = circularBuffer.read();
+        assertEquals("A", result);
+    }
+
     @Test
     @DisplayName("หลังจากสร้าง buffer แล้วเพิ่มข้อมูลเข้าไป ผลที่ได้ buffer ต้องไม่ว่าง")
     public void after_created_and_write_data_should_be_not_empty() {
