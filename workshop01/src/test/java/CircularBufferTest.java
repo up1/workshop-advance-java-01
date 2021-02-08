@@ -7,7 +7,19 @@ public class CircularBufferTest {
 
     CircularBuffer circularBuffer = new CircularBuffer();
 
-
+    @Test
+    public void read_data_from_empty_buffer_then_throw_exception() {
+        circularBuffer.create();
+        writeDataToBuffer("A", "B");
+        // JUnit 5
+        Exception exception = assertThrows(EmptyBufferException.class, () -> {
+            circularBuffer.read();
+            circularBuffer.read();
+            circularBuffer.read();
+        });
+        assertNotNull(exception);
+        assertEquals("Buffer is empty", exception.getMessage());
+    }
 
     @Test
     public void write_A_B_and_read_A_B_then_buffer_is_empty() {

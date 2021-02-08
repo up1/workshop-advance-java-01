@@ -31,6 +31,9 @@ public class CircularBuffer {
     }
 
     public String read() {
+        if(isEmpty()) {
+            throw new EmptyBufferException();
+        }
         return buffers[readPointer++];
     }
 
