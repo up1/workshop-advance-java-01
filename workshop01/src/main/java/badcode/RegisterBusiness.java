@@ -15,17 +15,7 @@ public class RegisterBusiness {
                     String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
                     if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
                         int exp = speaker.getExp();
-                        if (exp <= 1) {
-                            speaker.setRegistrationFee(500);
-                        } else if (exp >= 2 && exp <= 3) {
-                            speaker.setRegistrationFee(250);
-                        } else if (exp >= 4 && exp <= 5) {
-                            speaker.setRegistrationFee(100);
-                        } else if (exp >= 6 && exp <= 9) {
-                            speaker.setRegistrationFee(50);
-                        } else {
-                            speaker.setRegistrationFee(0);
-                        }
+                        speaker.setRegistrationFee(getFee(exp));
                         try {
                             speakerId = repository.saveSpeaker(speaker);
                         }catch (Exception exception) {
@@ -45,6 +35,20 @@ public class RegisterBusiness {
         }
 
         return speakerId;
+    }
+
+    int getFee(int exp) {
+        int fee = 0;
+        if (exp <= 1) {
+            fee = 500;
+        } else if (exp <= 3) {
+            fee = 250;
+        } else if (exp <= 5) {
+            fee = 100;
+        } else if (exp <= 9) {
+            fee = 50;
+        }
+        return fee;
     }
 
     public String getEmailDomain(String email) {
