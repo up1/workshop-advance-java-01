@@ -44,8 +44,8 @@ class PriceCalculator {
     public static int get(Basket basket) {
         // Logic
         int price = 0;
-        for (Book book : basket.getBooks()) {
-            price += book.getPrice();
+        for (Item item : basket.getBooks()) {
+            price += item.getBook().getPrice() * item.getQty();
         }
         return price;
     }
@@ -56,27 +56,69 @@ class DiscountCalculator {
     public static int get(Basket basket, int netPrice) {
         // Logic
         double discount = 0;
-        List<Book> books = basket.getBooks();
-        if(books.size() == 2) {
+        List<Item> items = basket.getBooks();
+        if(items.size() == 2) {
             discount = (double)netPrice - ( (double)netPrice * 5 / 100 );
         }
-        if(books.size() == 3) {
+        if(items.size() == 3) {
             discount = (double)netPrice - ( (double)netPrice * 10 / 100 );
         }
         return (int)(discount * 100);
     }
 }
 
+class Item {
+    private Book book;
+    private int qty;
+
+    public Item() {
+    }
+
+    public Item(Book book, int qty) {
+        this.book = book;
+        this.qty = qty;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+}
+
 class Basket {
-    private List<Book> books = new ArrayList<>();
+    private List<Item> books = new ArrayList<>();
     private int netPrice;
     private int discountPrice;
 
     public void addBook(Book book) {
-        books.add(book);
+        // BigO(n)
+        boolean isExisted = false;
+        for (Item item : books) {
+            // Existing
+            if(item.getBook().getName().equals(book.getName())) {
+                item.setQty(item.getQty()+1);
+                isExisted = true;
+                break;
+            }
+        }
+        if(!isExisted) {
+            Item newItem = new Item(book, 1);
+            books.add(newItem);
+        }
     }
 
-    public List<Book> getBooks() {
+    public List<Item> getBooks() {
         return books;
     }
 
