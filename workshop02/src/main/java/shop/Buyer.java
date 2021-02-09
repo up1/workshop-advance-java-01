@@ -66,7 +66,7 @@ class DiscountCalculator {
         return (int)(discount * 100);
     }
 }
-
+// POJO :: Plain Old Java Object
 class Item {
     private Book book;
     private int qty;
@@ -77,6 +77,14 @@ class Item {
     public Item(Book book, int qty) {
         this.book = book;
         this.qty = qty;
+    }
+
+    public boolean isSame(String name) {
+        return name.equals(book.getName());
+    }
+
+    public void increaseQty() {
+        qty++;
     }
 
     public int getPrice() {
@@ -106,12 +114,12 @@ class Basket {
     private int discountPrice;
 
     public void addBook(Book book) {
-        // BigO(n)
+        // TODO : BigO(n)
         boolean isExisted = false;
         for (Item item : books) {
             // Existing
-            if(item.getBook().getName().equals(book.getName())) {
-                item.setQty(item.getQty()+1);
+            if(item.isSame(book.getName())) {
+                item.increaseQty();
                 isExisted = true;
                 break;
             }
