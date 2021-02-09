@@ -1,8 +1,6 @@
 package badcode;
 
-
 import java.util.Arrays;
-import java.util.List;
 
 public class RegisterBusiness {
 
@@ -13,7 +11,8 @@ public class RegisterBusiness {
         if (speaker.getFirstName() != null && !speaker.getFirstName().trim().equals("")) {
             if (speaker.getLastName() != null && !speaker.getLastName().trim().equals("")) {
                 if (speaker.getEmail() != null && !speaker.getEmail().trim().equals("")) {
-                    String emailDomain = speaker.getEmail().split("@")[1];
+                    // Tasks
+                    String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
                     if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
                         int exp = speaker.getExp();
                         if (exp <= 1) {
@@ -46,6 +45,14 @@ public class RegisterBusiness {
         }
 
         return speakerId;
+    }
+
+    public String getEmailDomain(String email) {
+        String[] inputs = email.split("@");
+        if(inputs.length == 2) {
+            return inputs[1];
+        }
+        throw new DomainEmailInvalidException();
     }
 
 }

@@ -95,7 +95,6 @@ public class RegisterBusinessTest {
     }
 
     //=============== Success cases
-
     @Test
     public void register_success() {
         // Arrange
