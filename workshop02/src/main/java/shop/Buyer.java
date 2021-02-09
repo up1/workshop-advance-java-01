@@ -31,6 +31,9 @@ class Checkout {
         int netPrice = PriceCalculator.get(basket);
         int maxDiscount = DiscountCalculator.get(basket);
         int totalPrice = netPrice - maxDiscount;
+
+        basket.setNetPrice(netPrice);
+
         // TODO
     }
 }
@@ -39,7 +42,11 @@ class PriceCalculator {
 
     public static int get(Basket basket) {
         // Logic
-        return 0;
+        int price = 0;
+        for (Book book : basket.getBooks()) {
+            price += book.getPrice();
+        }
+        return price;
     }
 }
 
@@ -52,7 +59,7 @@ class DiscountCalculator {
 }
 
 class Basket {
-    List<Book> books = new ArrayList<>();
+    private List<Book> books = new ArrayList<>();
     private int netPrice;
     private int discountPrice;
 
@@ -60,8 +67,12 @@ class Basket {
         books.add(book);
     }
 
+    public List<Book> getBooks() {
+        return books;
+    }
+
     public int getNetPrice() {
-        return netPrice;
+        return netPrice * 100;
     }
 
     public void setNetPrice(int netPrice) {

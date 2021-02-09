@@ -1,12 +1,30 @@
 package shop;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BuyerTest {
 
     @Test
+    public void buy_1_books() {
+        // 1. Create basket
+        Basket basket = new Basket();
+        // 2. Add book to basket
+        Book book1 = new Book("Potter 1", 8);
+        basket.addBook(book1);
+        // 3. Checkout
+        Checkout checkout = new Checkout();
+        checkout.process(basket);
+
+        // Check netPrice = 8, discountPrice 0%
+        assertEquals(800, basket.getNetPrice()); // 8.00
+        assertEquals(0, basket.getDiscountPrice()); // 0
+    }
+
+    @Test
+    @Disabled
     public void buy_3_books() {
         // 1. Create basket
         Basket basket = new Basket();
