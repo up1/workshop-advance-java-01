@@ -45,7 +45,7 @@ class PriceCalculator {
         // Logic
         int price = 0;
         for (Item item : basket.getBooks()) {
-            price += item.getBook().getPrice() * item.getQty();
+            price += item.getPrice();
         }
         return price;
     }
@@ -77,6 +77,10 @@ class Item {
     public Item(Book book, int qty) {
         this.book = book;
         this.qty = qty;
+    }
+
+    public int getPrice() {
+        return book.getPrice() * getQty();
     }
 
     public Book getBook() {
