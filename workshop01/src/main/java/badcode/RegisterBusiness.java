@@ -5,36 +5,37 @@ import java.util.Arrays;
 public class RegisterBusiness {
 
     public Integer register(SpeakerRepository repository, Speaker speaker) {
-        Integer speakerId;
-        String[] domains = {"gmail.com", "live.com"};
+        // 1. Validate Register Data
+        validateRegisterData(speaker);
+        // 2. Save Speaker
+        Integer speakerId = repository.saveSpeaker(speaker);
+        // 3. Return speaker id
+        return speakerId;
+    }
 
-        if (speaker.getFirstName() != null && !speaker.getFirstName().trim().equals("")) {
-            if (speaker.getLastName() != null && !speaker.getLastName().trim().equals("")) {
-                if (speaker.getEmail() != null && !speaker.getEmail().trim().equals("")) {
-                    // Tasks
-                    String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
-                    if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
-                        int exp = speaker.getExp();
-                        speaker.setRegistrationFee(getFee(exp));
-                        try {
-                            speakerId = repository.saveSpeaker(speaker);
-                        }catch (Exception exception) {
-                            throw new SaveSpeakerException("Can't save a speaker.");
-                        }
-                    } else {
-                        throw new SpeakerDoesntMeetRequirementsException("Speaker doesn't meet our standard rules.");
-                    }
-                } else {
-                    throw new ArgumentNullException("Email is required.");
-                }
-            }else {
-                throw new ArgumentNullException("Last name is required.");
-            }
-        } else {
+    private void validateRegisterData(Speaker speaker) {
+        // Fail fast
+        if (isNullOrEmpty(speaker.getFirstName())) {
             throw new ArgumentNullException("First name is required.");
         }
+        if (isNullOrEmpty(speaker.getLastName())) {
+            throw new ArgumentNullException("Last name is required.");
+        }
+        if (isNullOrEmpty(speaker.getEmail())) {
+            throw new ArgumentNullException("Email is required.");
+        }
 
-        return speakerId;
+        String[] domains = {"gmail.com", "live.com"};
+        String emailDomain = getEmailDomain(speaker.getEmail());
+        if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 0) {
+            throw new SpeakerDoesntMeetRequirementsException("Speaker doesn't meet our standard rules.");
+        }
+
+    }
+
+    private boolean isNullOrEmpty(String input) {
+        return input == null
+                || input.trim().equals("");
     }
 
     int getFee(int exp) {
@@ -53,7 +54,7 @@ public class RegisterBusiness {
 
     public String getEmailDomain(String email) {
         String[] inputs = email.trim().split("@");
-        if(inputs.length == 2) return inputs[1];
+        if (inputs.length == 2) return inputs[1];
         throw new DomainEmailInvalidException();
     }
 

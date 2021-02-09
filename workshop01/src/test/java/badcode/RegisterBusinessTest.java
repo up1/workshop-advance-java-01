@@ -85,9 +85,17 @@ public class RegisterBusinessTest {
         newSpeaker.setLastName("Demo last");
         newSpeaker.setEmail("demo@gmail.com");
 
+        // Stub dependency
+        SpeakerRepository stub = new SpeakerRepository() {
+            @Override
+            public Integer saveSpeaker(Speaker speaker) {
+                throw new SaveSpeakerException("Can't save a speaker.");
+            }
+        };
+
         // Act
         Exception exception = assertThrows(SaveSpeakerException.class, () -> {
-            registerBusiness.register(null, newSpeaker);
+            registerBusiness.register(stub, newSpeaker);
         });
 
         // Assert
